@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e31837">
+    <title>Fresas Con Crema</title>
+    <!-- Cargar solo los íconos necesarios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e31837;
+            --secondary-color: #ff1f4d;
+            --text-color: #ffffff;
+            --transition: 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes softBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes softPulse {
+            0% {
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+            }
+            50% {
+                box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            }
+            100% {
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+            }
+        }
+
+        @keyframes buttonPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+            }
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle, .toppings-title, .payment-section h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1em;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .image-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 35px auto;
+            max-width: 800px;
+        }
+
+        .image-card {
+            position: relative;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: softBounce 2s ease-in-out infinite, cardAppear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-card.center-card {
+            grid-column: 1 / -1;
+            width: calc(50% - 10px); /* Mismo ancho que las imágenes superiores */
+            margin: 0 auto;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover .image-overlay {
+            transform: translateY(0);
+        }
+
+        .toppings-section {
+            margin: 40px auto;
+            max-width: 580px;
+        }
+
+        .toppings-image {
+            width: 100%;
+            height: auto;
+            max-height: 800px;
+            object-fit: contain;
+            border-radius: 15px;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform var(--transition);
+            animation: softBounce 2s ease-in-out infinite;
+        }
+
+        .toppings-image:hover {
+            transform: scale(1.02);
+        }
+
+        .order-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 20px auto;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+
+        .order-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+            animation: none;
+        }
+
+        .order-button i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .order-button:hover i {
+            transform: translateX(8px);
+        }
+
+        .payment-section {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nequi-code {
+            font-size: 1.3em;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            display: inline-block;
+            transition: all var(--transition);
+        }
+
+        .nequi-code:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .qr-code {
+            max-width: 150px;
+            margin: 15px auto;
+            display: block;
+            border-radius: 8px;
+            transition: transform var(--transition);
+            cursor: pointer;
+        }
+
+        .qr-code:hover {
+            transform: scale(1.05);
+        }
+
+        .social-media {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .social-media a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.5em;
+            transition: all var(--transition);
+            display: inline-block;
+        }
+
+        .social-media a:hover {
+            transform: translateY(-3px);
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .image-card {
+                height: 250px;
+                animation: softBounce 2s ease-in-out infinite;
+            }
+
+            .toppings-image {
+                max-height: 400px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle, .toppings-title, .payment-section h2 {
+                font-size: 1.3em;
+            }
+
+            .image-container {
+                margin: 25px auto;
+            }
+
+            /* Mantener solo la animación de rebote en móvil para el botón */
+            .order-button {
+                animation: softBounce 2s ease-in-out infinite;
+            }
+
+            .order-button:hover {
+                transform: none;
+                animation: softBounce 2s ease-in-out infinite;
+            }
+
+            /* Desactivar otras animaciones en móvil */
+            .image-card:hover {
+                transform: none;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .image-card:hover img {
+                transform: none;
+            }
+
+            .image-overlay {
+                transform: translateY(100%);
+            }
+
+            .image-card:active .image-overlay {
+                transform: translateY(0);
+            }
+
+            .order-button {
+                width: 90%;
+                margin: 20px auto;
+                display: block;
+            }
+        }
+
+        .toppings-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fresas Con Crema</h1>
+    </header>
+    
+    <div class="container">
+        <h2 class="subtitle text-center">Servicios</h2>
+        <div class="text-center">
+            <p class="welcome-text">Ofrecemos deliciosas fresas con crema, preparadas con ingredientes frescos y de alta calidad.</p>
+            <a href="pagina.html" class="order-button">
+                ¡Haz tu Pedido Ahora! <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="image-container">
+            <div class="image-card">
+                <img src="img.fresas.topings.jpg" alt="Fresas con Toppings" loading="lazy">
+                <div class="image-overlay">
+                    <h3>Fresas con Toppings</h3>
+                    <p>Deliciosa combinación de sabores</p>
+                </div>
+            </div>
+            <div class="image-card">
+                <img src="img.crema.jpg" alt="Crema Especial" loading="lazy">
+                <div class="image-overlay">
+                    <h3>Crema Especial</h3>
+                    <p>Nuestra receta secreta</p>
+                </div>
+            </div>
+            <div class="image-card center-card">
+                <img src="img.caramelo.jpg" alt="Caramelo" loading="lazy">
+                <div class="image-overlay">
+                    <h3>Toque de Caramelo</h3>
+                    <p>El complemento perfecto</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="toppings-section">
+            <h2 class="toppings-title">Informacion Añadida</h2>
+            <img src="topings.jpg" alt="Toppings disponibles" class="toppings-image" loading="lazy">
+        </div>
+
+        <div class="payment-section">
+            <h2>¡Realiza tu pago aquí!</h2>
+            <p>Paga fácilmente a través de Nequi</p>
+            <div class="nequi-code">321 822 5925</div>
+            <img src="img.nequi.jpg" alt="Código QR Nequi" class="qr-code" loading="lazy" onclick="openNequi()">
+        </div>
+
+        <div class="social-media">
+            <a href="fb://profile/cremafresa_lover00" class="fab fa-facebook" title="Síguenos en Facebook" onclick="openSocialMedia('https://www.facebook.com/cremafresa_lover00', 'fb://profile/cremafresa_lover00'); return false;"></a>
+            <a href="instagram://user?username=cremafresa_lover00" class="fab fa-instagram" title="Síguenos en Instagram" onclick="openSocialMedia('https://www.instagram.com/cremafresa_lover00', 'instagram://user?username=cremafresa_lover00'); return false;"></a>
+            <a href="whatsapp://send?phone=573218225925" class="fab fa-whatsapp" title="Contáctanos por WhatsApp" onclick="openSocialMedia('https://wa.me/573218225925', 'whatsapp://send?phone=573218225925'); return false;"></a>
+        </div>
+    </div>
+
+    <script>
+        function openSocialMedia(webUrl, appUrl) {
+            // Intentar abrir la app
+            window.location.href = appUrl;
+            
+            // Si después de 1 segundo no se abrió la app, abrir en el navegador
+            setTimeout(function() {
+                window.location.href = webUrl;
+            }, 1000);
+        }
+
+        function openNequi() {
+            const phoneNumber = '573218225925';
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Intentar abrir la app de Nequi
+                window.location.href = `nequi://send?phone=${phoneNumber}`;
+                
+                // Si no se abre la app después de 1 segundo, abrir el enlace web
+                setTimeout(() => {
+                    window.location.href = `https://recarga.nequi.com.co/${phoneNumber}`;
+                }, 1000);
+            } else {
+                // En desktop, abrir la página web de Nequi
+                window.open(`https://recarga.nequi.com.co/${phoneNumber}`, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>

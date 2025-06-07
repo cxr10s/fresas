@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacer Pedido - Fresas Con Crema</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e31837;
+            --secondary-color: #ff1f4d;
+            --accent-color: #b30000;
+            --text-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e31837 0%, #b30000 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.8s ease-out;
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(227, 24, 55, 0.3);
+        }
+
+        .toppings-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .topping-option {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .topping-option:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .topping-option input[type="checkbox"] {
+            display: none;
+        }
+
+        .topping-option label {
+            cursor: pointer;
+        }
+
+        .topping-option input[type="checkbox"]:checked + label {
+            color: #fab387;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(227, 24, 55, 0.4);
+            animation: pulseSubmit 2s infinite;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(227, 24, 55, 0.6);
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseSubmit {
+            0% {
+                box-shadow: 0 0 0 0 rgba(227, 24, 55, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(227, 24, 55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(227, 24, 55, 0);
+            }
+        }
+
+        /* Optimizaciones para escritorio */
+        @media (min-width: 769px) {
+            .form-container {
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .form-container:hover {
+                transform: translateY(-5px);
+            }
+
+            .topping-option {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .submit-btn {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }
+
+        /* Optimizaciones para móviles */
+        @media (max-width: 768px) {
+            .form-container {
+                backdrop-filter: none;
+                background: rgba(0, 0, 0, 0.4);
+                animation: none;
+            }
+
+            .topping-option {
+                backdrop-filter: none;
+                background: rgba(0, 0, 0, 0.4);
+                transition: transform 0.2s ease;
+            }
+
+            .topping-option:hover {
+                transform: none;
+            }
+
+            .topping-option:active {
+                transform: translateY(-2px);
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            select,
+            textarea {
+                background: rgba(0, 0, 0, 0.3);
+                backdrop-filter: none;
+            }
+
+            .submit-btn {
+                animation: simplePulse 2s infinite;
+            }
+
+            @keyframes simplePulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.02);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+        }
+
+        /* Preferencia de reducción de movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .form-container {
+                animation: none;
+            }
+
+            .submit-btn {
+                animation: none;
+            }
+
+            .topping-option:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+        
+        <div class="form-container" data-aos="fade-up">
+            <h1>¡Haz tu Pedido!</h1>
+            
+            <form id="pedidoForm" onsubmit="return validarFormulario()">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">Dirección de entrega</label>
+                    <input type="text" id="direccion" name="direccion" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tamaño</label>
+                    <select name="tamano" id="tamano" required onchange="calcularTotal()">
+                        <option value="">Selecciona un tamaño</option>
+                        <option value="pequeno">Pequeño - $10.000</option>
+                        <option value="mediano">Mediano - $13.000</option>
+                        <option value="grande">Grande - $15.000</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Toppings (opcional - $1.000 c/u)</label>
+                    <div class="toppings-container">
+                        <div class="topping-option">
+                            <input type="checkbox" id="oreo" name="toppings[]" value="oreo" onchange="calcularTotal()">
+                            <label for="oreo">Galleta Oreo</label>
+                        </div>
+                        <div class="topping-option">
+                            <input type="checkbox" id="piazza" name="toppings[]" value="piazza" onchange="calcularTotal()">
+                            <label for="piazza">Piazza</label>
+                        </div>
+                        <div class="topping-option">
+                            <input type="checkbox" id="chocolatina" name="toppings[]" value="chocolatina" onchange="calcularTotal()">
+                            <label for="chocolatina">Chocolatina</label>
+                        </div>
+                        <div class="topping-option">
+                            <input type="checkbox" id="chocorramo" name="toppings[]" value="chocorramo" onchange="calcularTotal()">
+                            <label for="chocorramo">Chocorramo</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Total a Pagar:</label>
+                    <div id="total" style="font-size: 1.2em; color: #fab387; margin-top: 10px;">$0</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentarios">Comentarios adicionales</label>
+                    <textarea id="comentarios" name="comentarios" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Enviar Pedido
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Optimizar inicialización de AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out',
+            once: true,
+            mirror: false,
+            offset: 50,
+            disable: window.innerWidth < 768
+        });
+
+        // Optimizaciones de rendimiento
+        document.addEventListener('DOMContentLoaded', function() {
+            // Optimizar manejo de eventos de formulario
+            const form = document.getElementById('pedidoForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            // Usar delegación de eventos para mejor rendimiento
+            form.addEventListener('input', function(e) {
+                if (e.target.type === 'checkbox') {
+                    requestAnimationFrame(() => {
+                        e.target.parentElement.classList.toggle('active', e.target.checked);
+                    });
+                }
+            });
+
+            // Optimizar transiciones
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    requestAnimationFrame(() => {
+                        this.classList.add('focused');
+                    });
+                });
+
+                input.addEventListener('blur', function() {
+                    requestAnimationFrame(() => {
+                        this.classList.remove('focused');
+                    });
+                });
+            });
+        });
+
+        function obtenerPrecioBase() {
+            const tamano = document.getElementById('tamano').value;
+            switch(tamano) {
+                case 'pequeno': return 10000;
+                case 'mediano': return 13000;
+                case 'grande': return 15000;
+                default: return 0;
+            }
+        }
+
+        function calcularTotal() {
+            const precioBase = obtenerPrecioBase();
+            const toppingsSeleccionados = document.querySelectorAll('input[name="toppings[]"]:checked').length;
+            const precioTopping = 1000;
+            const total = precioBase + (toppingsSeleccionados * precioTopping);
+            document.getElementById('total').textContent = `$${total.toLocaleString()}`;
+            return total;
+        }
+
+        function validarFormulario() {
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const direccion = document.getElementById('direccion').value;
+            const tamano = document.querySelector('select[name="tamano"]').value;
+            
+            if (nombre.trim() === '' || telefono.trim() === '' || direccion.trim() === '' || tamano === '') {
+                alert('Por favor, completa todos los campos requeridos');
+                return false;
+            }
+
+            // Obtener toppings seleccionados y total
+            const toppingsSeleccionados = [];
+            document.querySelectorAll('input[name="toppings[]"]:checked').forEach(checkbox => {
+                toppingsSeleccionados.push(checkbox.value);
+            });
+            const total = calcularTotal();
+            const precioBase = obtenerPrecioBase();
+
+            const comentarios = document.getElementById('comentarios').value;
+
+            // Construir el mensaje
+            let mensaje = `¡Hola! Quiero hacer un pedido 🍓\n\n`;
+            mensaje += `*Nombre:* ${nombre}\n`;
+            mensaje += `*Teléfono:* ${telefono}\n`;
+            mensaje += `*Dirección:* ${direccion}\n`;
+            mensaje += `*Tamaño:* ${tamano} - $${precioBase.toLocaleString()}\n`;
+            
+            if (toppingsSeleccionados.length > 0) {
+                mensaje += `*Toppings ($1.000 c/u):* ${toppingsSeleccionados.join(', ')}\n`;
+                mensaje += `*Costo Toppings:* $${(toppingsSeleccionados.length * 1000).toLocaleString()}\n`;
+            }
+            
+            mensaje += `*Total a Pagar:* $${total.toLocaleString()}\n`;
+            
+            if (comentarios.trim() !== '') {
+                mensaje += `*Comentarios:* ${comentarios}\n`;
+            }
+
+            // Número de WhatsApp (sin espacios ni caracteres especiales)
+            const numeroWhatsApp = '573218225925'; // Agregamos el código de país (57 para Colombia)
+            
+            // Detectar si es móvil o desktop
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            // Crear los enlaces para diferentes plataformas
+            const urlWhatsAppWeb = `https://web.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
+            const urlWhatsAppMobile = `whatsapp://send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
+            
+            // Intentar abrir WhatsApp
+            if (isMobile) {
+                // En móviles, intentamos primero la app nativa
+                window.location.href = urlWhatsAppMobile;
+                
+                // Si después de un segundo no se abrió la app, intentamos el enlace web
+                setTimeout(() => {
+                    window.location.href = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensaje)}`;
+                }, 1000);
+            } else {
+                // En desktop, abrimos WhatsApp Web
+                window.open(urlWhatsAppWeb, '_blank');
+            }
+
+            return false;
+        }
+    </script>
+</body>
+</html>
