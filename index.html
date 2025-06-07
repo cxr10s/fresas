@@ -467,31 +467,66 @@
 
     <script>
         function openSocialMedia(webUrl, appUrl) {
+            // Variable para rastrear si la app se abrió
+            let appOpened = false;
+            
+            // Función para abrir en navegador
+            function openInBrowser() {
+                if (!appOpened && confirm('¿Deseas abrir el enlace en el navegador?')) {
+                    window.location.href = webUrl;
+                }
+            }
+
+            // Intentar abrir la app
+            const now = Date.now();
+            const timeoutDuration = 1000;
+
+            // Escuchar cuando la página pierde visibilidad (app se abre)
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    appOpened = true;
+                }
+            });
+
             // Intentar abrir la app
             window.location.href = appUrl;
-            
-            // Si después de 1 segundo no se abrió la app, abrir en el navegador
+
+            // Comprobar si la app no se abrió después de un tiempo
             setTimeout(function() {
-                window.location.href = webUrl;
-            }, 1000);
+                if (!appOpened && (Date.now() - now < timeoutDuration + 100)) {
+                    openInBrowser();
+                }
+            }, timeoutDuration);
         }
 
         function openNequi() {
             const phoneNumber = '573218225925';
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // Intentar abrir la app de Nequi
-                window.location.href = `nequi://send?phone=${phoneNumber}`;
-                
-                // Si no se abre la app después de 1 segundo, abrir el enlace web
-                setTimeout(() => {
-                    window.location.href = `https://recarga.nequi.com.co/${phoneNumber}`;
-                }, 1000);
-            } else {
-                // En desktop, abrir la página web de Nequi
-                window.open(`https://recarga.nequi.com.co/${phoneNumber}`, '_blank');
+            let appOpened = false;
+
+            // Función para abrir en navegador
+            function openInBrowser() {
+                if (!appOpened && confirm('¿Deseas abrir Nequi en el navegador?')) {
+                    window.open(`https://recarga.nequi.com.co/${phoneNumber}`, '_blank');
+                }
             }
+
+            // Escuchar cuando la página pierde visibilidad (app se abre)
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    appOpened = true;
+                }
+            });
+
+            // Intentar abrir la app
+            const now = Date.now();
+            window.location.href = `nequi://send?phone=${phoneNumber}`;
+
+            // Comprobar si la app no se abrió
+            setTimeout(function() {
+                if (!appOpened && (Date.now() - now < 1100)) {
+                    openInBrowser();
+                }
+            }, 1000);
         }
     </script>
 </body>
