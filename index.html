@@ -501,14 +501,7 @@
 
         function openNequi() {
             const phoneNumber = '573218225925';
-            
-            // Solo intentar abrir la app de Nequi
             window.location.href = `nequi://send?phone=${phoneNumber}`;
-            
-            // Si la app no está instalada, mostrar un mensaje
-            setTimeout(function() {
-                alert('Para usar esta función necesitas tener la app de Nequi instalada');
-            }, 1000);
         }
     </script>
 </body>
