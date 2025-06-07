@@ -501,31 +501,13 @@
 
         function openNequi() {
             const phoneNumber = '573218225925';
-            let appOpened = false;
-
-            // Función para abrir en navegador
-            function openInBrowser() {
-                if (!appOpened && confirm('¿Deseas abrir Nequi en el navegador?')) {
-                    window.open(`https://recarga.nequi.com.co/${phoneNumber}`, '_blank');
-                }
-            }
-
-            // Escuchar cuando la página pierde visibilidad (app se abre)
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    appOpened = true;
-                }
-            });
-
-            // Intentar abrir la app
-            const now = Date.now();
+            
+            // Solo intentar abrir la app de Nequi
             window.location.href = `nequi://send?phone=${phoneNumber}`;
-
-            // Comprobar si la app no se abrió
+            
+            // Si la app no está instalada, mostrar un mensaje
             setTimeout(function() {
-                if (!appOpened && (Date.now() - now < 1100)) {
-                    openInBrowser();
-                }
+                alert('Para usar esta función necesitas tener la app de Nequi instalada');
             }, 1000);
         }
     </script>
